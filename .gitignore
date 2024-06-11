@@ -61,3 +61,11 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+
+.vsconfig
+
+UserSettings/Search.settings
+
+UserSettings/Layouts/default-2022.dwlt
+
+UserSettings/EditorUserSettings.asset
