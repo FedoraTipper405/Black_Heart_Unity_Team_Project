@@ -15,7 +15,21 @@ public class PlayerMovement : MonoBehaviour
     private float _jumpForce = 45f;
 
     private bool _isJumping;
-    
+
+    public static PlayerMovement Instance;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
