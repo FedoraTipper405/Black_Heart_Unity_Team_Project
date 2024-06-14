@@ -10,7 +10,7 @@ public class CameraFollow : MonoBehaviour
     private Vector3 _offSet;
 
 
-    void Update()
+    void FixedUpdate()
     {
         transform.position = Vector3.Lerp(transform.position, PlayerMovement.Instance.transform.position + _offSet, _followSpeed); //updates camera position.
     }
