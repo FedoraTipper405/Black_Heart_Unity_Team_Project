@@ -7,15 +7,20 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
 
     [SerializeField]
-    private float _movementSpeed = 5f;
+    private float _movementSpeed;
     
     private float _xAxis;
     
     [SerializeField]
-    private float _jumpForce = 45f;
+    private float _jumpForce;
+    [SerializeField]
+    private Transform _groundCheck;
+    [SerializeField]
+    private LayerMask _groundLayer;
 
-    private bool _isJumping;
-
+    [SerializeField]
+    private float _coyoteTime;
+    private float _coyoteTimeCounter;
     public static PlayerMovement Instance;
 
     private void Awake()
@@ -40,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     {
         GetInput();
         MovePlayer();
+        CoyoteTimer();
         Jump();
     }
 
@@ -53,25 +59,34 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity= new Vector2(_movementSpeed * _xAxis, rb.velocity.y);
     }
 
+    private bool IsGrounded()
+    {
+        return Physics2D.OverlapCircle(_groundCheck.position, 0.2f, _groundLayer);
+    }
+
+    void CoyoteTimer()
+    {
+        if (IsGrounded())
+        {
+            _coyoteTimeCounter = _coyoteTime;
+        }
+        else
+        {
+            _coyoteTimeCounter -= Time.deltaTime;
+        }
+    }
+
     void Jump()
     {
         if(Input.GetButtonUp("Jump") && rb.velocity.y > 0)
         {
             rb.velocity = new Vector2(rb.velocity.x, 0);
+            _coyoteTimeCounter = 0f;
         }
         
-        if(Input.GetButtonDown("Jump") && !_isJumping)
+        if(Input.GetButtonDown("Jump") && _coyoteTimeCounter > 0f)
         {
-            rb.velocity = new Vector3(rb.velocity.x, _jumpForce);
-            _isJumping = true;
-        }
-    }
-
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            _isJumping = false;
+            rb.velocity = new Vector3(rb.velocity.x, _jumpForce);     
         }
     }
 }
