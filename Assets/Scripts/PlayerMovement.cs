@@ -22,6 +22,7 @@ public class PlayerMovement : MonoBehaviour
     private float _coyoteTime;
     private float _coyoteTimeCounter;
     public static PlayerMovement Instance;
+    Animator anim;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     
@@ -47,6 +49,7 @@ public class PlayerMovement : MonoBehaviour
         MovePlayer();
         CoyoteTimer();
         Jump();
+        Flip();
     }
 
     void GetInput()
@@ -54,9 +57,22 @@ public class PlayerMovement : MonoBehaviour
         _xAxis = Input.GetAxisRaw("Horizontal");
     }
 
+    void Flip()
+    {
+        if (_xAxis < 0)
+        {
+            transform.localScale = new Vector2(-1, transform.localScale.y);
+        }
+        else if (_xAxis > 0)
+        {
+            transform.localScale = new Vector2(1, transform.localScale.y);
+        }
+    }
+
     private void MovePlayer()
     {
         rb.velocity= new Vector2(_movementSpeed * _xAxis, rb.velocity.y);
+        anim.SetBool("Running", rb.velocity.x != 0 && IsGrounded());
     }
 
     private bool IsGrounded()
@@ -88,5 +104,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.velocity = new Vector3(rb.velocity.x, _jumpForce);     
         }
+        anim.SetBool("Jumping", !IsGrounded());
     }
 }
