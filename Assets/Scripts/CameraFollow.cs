@@ -13,7 +13,7 @@ public class CameraFollow : MonoBehaviour
     //Follows the player by using the players current position and follows based on a set follow speed.
     void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, PlayerMovement.Instance.transform.position + _offSet, _followSpeed); //updates camera position.
+        transform.position = Vector3.Lerp(transform.position, PlayerController.Instance.transform.position + _offSet, _followSpeed); //updates camera position.
     }
 }
 
