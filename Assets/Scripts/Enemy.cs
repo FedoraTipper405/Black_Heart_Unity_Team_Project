@@ -21,6 +21,8 @@ public class Enemy : MonoBehaviour
     protected PlayerController player;
     [SerializeField] 
     protected float _speed;
+    [SerializeField] protected float _damage;
+    
 
     protected virtual void Start()
     {
@@ -30,6 +32,7 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         player = PlayerController.Instance;
+        
     }
 
     protected virtual void Update()
@@ -60,5 +63,18 @@ public class Enemy : MonoBehaviour
         {
             rb.AddForce(-_hitForce * _recoilFactor * _hitDirection);
         }
+    }
+
+    protected void OnTriggerStay2D(Collider2D _other)
+    {
+        if (_other.CompareTag("Player") && !HealthManager.Instance._invincible)
+        {
+            Attack();
+        }
+    }
+
+    protected virtual void Attack()
+    {
+        HealthManager.Instance.TakeDamage(10);
     }
 }
