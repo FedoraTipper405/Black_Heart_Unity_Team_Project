@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class HealthManager : MonoBehaviour
     public float healthAmount = 100f;
     public static HealthManager Instance;
     public bool _invincible;
+    public int _healingPotions;
     // Start is called before the first frame update
 
     private void Awake()
@@ -32,11 +34,11 @@ public class HealthManager : MonoBehaviour
     {
         if (healthAmount <= 0)
         {
-            Application.LoadLevel(Application.loadedLevel);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
 
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H) && healthAmount != 100)
         {
             Heal(10);
         }
@@ -56,11 +58,19 @@ public class HealthManager : MonoBehaviour
         _invincible = false;
     }
 
+    public void GainPotion()
+    {
+        _healingPotions++;
+    }
+
     public void Heal(float healingAmount)
     {
-        healthAmount += healingAmount;
-        healingAmount = Mathf.Clamp(healthAmount, 0, 100);
-
-        HealthBar.fillAmount = healthAmount / 100f;
+        if (_healingPotions > 0)
+        {
+            healthAmount += healingAmount;
+            healingAmount = Mathf.Clamp(healthAmount, 0, 100);
+            HealthBar.fillAmount = healthAmount / 100f;
+            _healingPotions--;
+        }
     }
 }

@@ -150,6 +150,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButtonDown("Dash") && _canDash)
         {
             StartCoroutine(Dash());
+            AudioManager.Instance.PlaySFX("DashSound");
         }
     }
 
@@ -176,6 +177,7 @@ public class PlayerController : MonoBehaviour
         {
             _timeSinceAttack = 0;
             animator.SetTrigger("Attacking");
+            AudioManager.Instance.PlaySFX("AttackSound");
 
             if (_yAxis == 0 || _yAxis < 0 && IsGrounded())
             {
@@ -316,7 +318,8 @@ public class PlayerController : MonoBehaviour
         
         if(Input.GetButtonDown("Jump") && _coyoteTimeCounter > 0f)
         {
-            rb.velocity = new Vector3(rb.velocity.x, _jumpForce);     
+            rb.velocity = new Vector3(rb.velocity.x, _jumpForce);
+            AudioManager.Instance.PlaySFX("JumpSound");
         }
         animator.SetBool("Jumping", !IsGrounded());
     }

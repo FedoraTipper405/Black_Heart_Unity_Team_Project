@@ -21,8 +21,9 @@ public class Enemy : MonoBehaviour
     protected PlayerController player;
     [SerializeField] 
     protected float _speed;
-    [SerializeField] protected float _damage;
-    
+    [SerializeField]
+    private float _damage;
+
 
     protected virtual void Start()
     {
@@ -40,6 +41,7 @@ public class Enemy : MonoBehaviour
         if (_enemyHealth <= 0)
         {
             Destroy(gameObject);
+            HealthManager.Instance.GainPotion();
         }
         if (_isRecoiling)
         {
@@ -75,6 +77,6 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Attack()
     {
-        HealthManager.Instance.TakeDamage(10);
+        HealthManager.Instance.TakeDamage(_damage);
     }
 }
