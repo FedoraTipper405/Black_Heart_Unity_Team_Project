@@ -291,7 +291,7 @@ public class PlayerController : MonoBehaviour
     //Checks if the player is on a object with a Ground layer.
     private bool IsGrounded()
     {
-        return Physics2D.OverlapCircle(_groundCheck.position, 0.20f, _groundLayer);
+        return Physics2D.OverlapCircle(_groundCheck.position, 0.35f, _groundLayer);
     }
 
     //Allows the player to still jump for a small amount of time, even if the player is not Grounded.
