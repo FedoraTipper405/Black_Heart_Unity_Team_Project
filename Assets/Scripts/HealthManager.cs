@@ -11,6 +11,7 @@ public class HealthManager : MonoBehaviour
     public static HealthManager Instance;
     public bool _invincible;
     public int _healingPotions;
+    public int _maxAmountOfPotions;
     // Start is called before the first frame update
 
     private void Awake()
@@ -60,7 +61,10 @@ public class HealthManager : MonoBehaviour
 
     public void GainPotion()
     {
-        _healingPotions++;
+        if(_healingPotions < _maxAmountOfPotions)
+        {
+            _healingPotions++;
+        }
     }
 
     public void Heal(float healingAmount)

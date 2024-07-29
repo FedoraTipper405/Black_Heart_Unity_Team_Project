@@ -17,6 +17,6 @@ public class GameManager : MonoBehaviour
     }
     void Update()
     {
-        PotionText.text = "Potions: " + HealthManager._healingPotions;
+        PotionText.text = "Potions: " + HealthManager._healingPotions + "/" + HealthManager._maxAmountOfPotions;
     }
 }
